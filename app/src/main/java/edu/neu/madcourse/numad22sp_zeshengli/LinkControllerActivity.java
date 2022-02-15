@@ -4,17 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
+
 public class LinkControllerActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_controller);
+
+        ListView linkList = (ListView) findViewById(R.id.LinkList);
+
+        ArrayList<String> contentList = new ArrayList<String>();
+        contentList.add("test");
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, contentList);
+        linkList.setAdapter(arrayAdapter);
+
 
         FloatingActionButton addLink = findViewById(R.id.addLinkButton);
         addLink.setOnClickListener(new View.OnClickListener() {
