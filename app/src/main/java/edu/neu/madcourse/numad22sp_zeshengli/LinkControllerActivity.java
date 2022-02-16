@@ -39,6 +39,7 @@ public class LinkControllerActivity extends AppCompatActivity {
 
         if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
             contentList = savedInstanceState.getStringArrayList("key");
+            urls = savedInstanceState.getStringArrayList("urls");
         }
 
 
@@ -48,7 +49,14 @@ public class LinkControllerActivity extends AppCompatActivity {
         linkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent openLink = new Intent(Intent.ACTION_VIEW, Uri.parse(urls.get(position)));
+                String curUrl = urls.get(position);
+                if (!curUrl.startsWith("http://www.") && !curUrl.startsWith("https://www.")) {
+                    curUrl = "http://www." + curUrl;
+                }
+                else if (!curUrl.startsWith("http://") && !curUrl.startsWith("https://")) {
+                    curUrl = "http://" + curUrl;
+                }
+                Intent openLink = new Intent(Intent.ACTION_VIEW, Uri.parse(curUrl));
                 startActivity(openLink);
             }
         });
@@ -120,6 +128,7 @@ public class LinkControllerActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putStringArrayList("key", contentList);
+        outState.putStringArrayList("urls", urls);
         super.onSaveInstanceState(outState);
     }
 
