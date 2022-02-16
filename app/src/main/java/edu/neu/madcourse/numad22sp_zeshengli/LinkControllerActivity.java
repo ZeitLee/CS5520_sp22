@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -35,6 +36,10 @@ public class LinkControllerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_link_controller);
 
         ListView linkList = (ListView) findViewById(R.id.LinkList);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("key")) {
+            contentList = savedInstanceState.getStringArrayList("key");
+        }
 
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,
@@ -98,7 +103,7 @@ public class LinkControllerActivity extends AppCompatActivity {
             return;
         }
         // check url valid.
-        if (!URLUtil.isValidUrl(url)) {
+        if (!Patterns.WEB_URL.matcher(url).matches()) {
             Snackbar.make(getWindow().getDecorView().findViewById(R.id.LinkList),
                     "Fail: Invalid URL.", Snackbar.LENGTH_SHORT).show();
             return;
@@ -110,6 +115,12 @@ public class LinkControllerActivity extends AppCompatActivity {
         String prompt = String.format("Success: Add %s.", name);
         Snackbar.make(getWindow().getDecorView().findViewById(R.id.LinkList),
                 prompt, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putStringArrayList("key", contentList);
+        super.onSaveInstanceState(outState);
     }
 
 }
