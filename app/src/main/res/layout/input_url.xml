@@ -47,9 +47,4 @@
         android:layout_gravity="right"
         android:text="Cancel" />
 
-
-
-
-
-
 </LinearLayout>
