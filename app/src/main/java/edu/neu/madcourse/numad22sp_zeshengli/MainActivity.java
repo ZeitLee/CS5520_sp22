@@ -42,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Log.i("AboutMeMessage", "Name:Zesheng Li\nemail: li.zes@husky.neu.edu.");
-                Toast.makeText(getApplicationContext(), "Name:Zesheng Li\nemail: li.zes@husky" +
-                        ".neu.edu.", Toast.LENGTH_SHORT).show();
+                //not using toast after Assignment 4
+                //Toast.makeText(getApplicationContext(), "Name:Zesheng Li\nemail: li.zes@husky" +
+                //        ".neu.edu.", Toast.LENGTH_SHORT).show();
+                openAboutMe();
             }
         });
 
@@ -96,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openListOfLinkActivity() {
         Intent intent = new Intent(this, LinkControllerActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This is a helper function to open the link controller activity.
+     */
+    public void openAboutMe() {
+        Intent intent = new Intent(this, AboutMe.class);
         startActivity(intent);
     }
 }
