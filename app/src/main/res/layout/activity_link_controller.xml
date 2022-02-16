@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LinkControllerActivity">
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addLinkButton"
         android:layout_width="wrap_content"

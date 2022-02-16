@@ -7,8 +7,9 @@
         <entry key="app/src/main/res/drawable/My_ic_background.xml" value="0.1135" />
         <entry key="app/src/main/res/drawable/my_ic2_background.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/my_newIc_background.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/activity_link_controller.xml" value="0.24587171993236295" />
+        <entry key="app/src/main/res/layout/activity_link_controller.xml" value="0.19459838867187496" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3154815673828125" />
+        <entry key="app/src/main/res/layout/input_url.xml" value="0.1887031408308004" />
       </map>
     </option>
   </component>

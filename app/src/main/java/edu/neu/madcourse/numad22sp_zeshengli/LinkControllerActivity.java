@@ -1,8 +1,11 @@
 package edu.neu.madcourse.numad22sp_zeshengli;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -37,10 +40,24 @@ public class LinkControllerActivity extends AppCompatActivity {
         addLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showEditTextDialogue();
+
                 Snackbar.make(view, "Add a new link", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void showEditTextDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialogue;
+        final View popupView = getLayoutInflater().inflate(R.layout.input_url, null);
+
+        builder.setView(popupView);
+        dialogue = builder.create();
+        dialogue.show();
+
+
 
 
     }
