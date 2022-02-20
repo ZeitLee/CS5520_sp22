@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_ZeshengLi">
         <activity
+            android:name=".Location"
+            android:exported="false" />
+        <activity
             android:name=".AboutMe"
             android:exported="false" />
         <activity
