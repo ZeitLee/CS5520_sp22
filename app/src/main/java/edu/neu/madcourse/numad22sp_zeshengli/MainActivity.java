@@ -4,16 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button clicky;
+    Button click;
     Button linkController;
     Button locator;
 
@@ -23,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        clicky = (Button) findViewById(R.id.clicky);
+        click = (Button) findViewById(R.id.clicky);
         linkController = (Button) findViewById(R.id.linkController);
         locator = (Button) findViewById(R.id.locator);
 
@@ -40,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        clicky.setOnClickListener(new View.OnClickListener() {
+        click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openClicky();
@@ -84,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openLocatorActivity() {
         Intent intent = new Intent(this, Location.class);
+        intent .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -33,10 +34,10 @@ public class Location extends AppCompatActivity {
         longitude = (TextView) findViewById(R.id.longitude);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        if (ContextCompat.checkSelfPermission(Location.this,
+        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // request permission from user.
-            ActivityCompat.requestPermissions(Location.this,
+            ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
 
@@ -49,10 +50,14 @@ public class Location extends AppCompatActivity {
                     }
                 });
 
-
-
-
-
-
     }
+    // re-write back button to back to main activity.
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 }
