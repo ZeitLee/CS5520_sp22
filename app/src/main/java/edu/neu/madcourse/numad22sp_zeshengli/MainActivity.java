@@ -13,28 +13,19 @@ import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView clickTxt;
-    Button bt2;
-    Button bt3;
-    Button bt4;
-    Button bt5;
-    Button bt6;
-    Button bt7;
+    Button clicky;
     Button linkController;
+    Button locator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        clickTxt = (TextView) findViewById(R.id.textView2);
-        bt2 = (Button) findViewById(R.id.button2);
-        bt3 = (Button) findViewById(R.id.button3);
-        bt4 = (Button) findViewById(R.id.button4);
-        bt5 = (Button) findViewById(R.id.button5);
-        bt6 = (Button) findViewById(R.id.button6);
-        bt7 = (Button) findViewById(R.id.button7);
+        clicky = (Button) findViewById(R.id.clicky);
         linkController = (Button) findViewById(R.id.linkController);
+        locator = (Button) findViewById(R.id.locator);
 
         //This is about me button
         Button about_me_btn = (Button) findViewById(R.id.aboutMe);
@@ -49,48 +40,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bt2.setOnClickListener(new View.OnClickListener() {
+        clicky.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickTxt.setText("Pressed: A");
+                openClicky();
             }
         });
-        bt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickTxt.setText("Pressed: B");
-            }
-        });
-        bt4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickTxt.setText("Pressed: C");
-            }
-        });
-        bt5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickTxt.setText("Pressed: D");
-            }
-        });
-        bt6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickTxt.setText("Pressed: E");
-            }
-        });
-        bt7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickTxt.setText("Pressed: F");
-            }
-        });
+
+
         linkController.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openListOfLinkActivity();
             }
         });
+
+        locator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLocatorActivity();
+            }
+        });
+    }
+
+    /**
+     * This is a helper function to open the clicky activity.
+     */
+    public void openClicky() {
+        Intent intent = new Intent(this, Clicky.class);
+        startActivity(intent);
     }
 
     /**
@@ -98,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openListOfLinkActivity() {
         Intent intent = new Intent(this, LinkControllerActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This is a helper function to open the location activity.
+     */
+    public void openLocatorActivity() {
+        Intent intent = new Intent(this, Location.class);
         startActivity(intent);
     }
 

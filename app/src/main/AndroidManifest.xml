@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.numad22sp_zeshengli">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic2"
@@ -9,6 +11,9 @@
         android:roundIcon="@mipmap/ic2_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_ZeshengLi">
+        <activity
+            android:name=".Clicky"
+            android:exported="false" />
         <activity
             android:name=".Location"
             android:exported="false" />
