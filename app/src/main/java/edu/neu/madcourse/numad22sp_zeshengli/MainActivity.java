@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         server.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openLocatorActivity();
+                openLocatorServer();
             }
         });
     }
