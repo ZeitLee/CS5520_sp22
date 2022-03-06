@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     Button click;
     Button linkController;
     Button locator;
+    Button server;
 
 
     @Override
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         click = (Button) findViewById(R.id.clicky);
         linkController = (Button) findViewById(R.id.linkController);
         locator = (Button) findViewById(R.id.locator);
+        server = (Button) findViewById(R.id.server);
 
         //This is about me button
         Button about_me_btn = (Button) findViewById(R.id.aboutMe);
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 openLocatorActivity();
             }
         });
+
+        server.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLocatorActivity();
+            }
+        });
     }
 
     /**
@@ -80,6 +89,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openLocatorActivity() {
         Intent intent = new Intent(this, Location.class);
+        intent .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    /**
+     * This is a helper function to open the server activity.
+     */
+    public void openLocatorServer() {
+        Intent intent = new Intent(this, Server.class);
         intent .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

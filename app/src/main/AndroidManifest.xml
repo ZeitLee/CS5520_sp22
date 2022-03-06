@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_ZeshengLi">
         <activity
+            android:name=".Server"
+            android:exported="false" />
+        <activity
             android:name=".Clicky"
             android:exported="false" />
         <activity
