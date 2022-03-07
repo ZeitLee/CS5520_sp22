@@ -1,16 +1,16 @@
 package edu.neu.madcourse.numad22sp_zeshengli;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.AsyncTaskLoader;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,8 +21,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server extends AppCompatActivity {
 
@@ -30,6 +30,7 @@ public class Server extends AppCompatActivity {
 
     private TextView content;
     private Button btn;
+    private ProgressBar load;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,65 +38,89 @@ public class Server extends AppCompatActivity {
         setContentView(R.layout.activity_server);
 
         content = (TextView) findViewById(R.id.showText);
-        btn = (Button) findViewById(R.id.server);
+        btn = (Button) findViewById(R.id.getInfo);
+        load = (ProgressBar) findViewById(R.id.progressBar);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callWebserviceButtonHandler(v);
+            }
+        });
     }
 
     public void callWebserviceButtonHandler(View v) {
-        PingWebServiceTask task = new PingWebServiceTask();
-        task.execute();
-    }
+        ExecutorService task = Executors.newSingleThreadExecutor();
 
-    private class PingWebServiceTask extends AsyncTask<String, Integer, String[]> {
+        task.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        @Override
-        protected void onProgressUpdate(Integer... value) {
-            Log.i(TAG, "Making progress...");
-        }
 
-        @Override
-        protected String[] doInBackground(String... params) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        load.setVisibility(View.VISIBLE);
+                        Log.i(TAG, "Making progress...");
+                    }
+                });
 
-            String[] results = new String[2];
-            URL url = null;
+                String[] results = new String[2];
+                URL url = null;
 
-            try {
-                url = new URL("https://www.metaweather.com/api/location/search/?query=london");
-                //url = new URL(params[0]);
+                try {
+                    SystemClock.sleep(2000);
+                    url = new URL("https://www.metaweather.com/api/location/search/?query=london");
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
 
-                conn.connect();
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setDoInput(true);
 
-                // read response.
-                InputStream inputStream = conn.getInputStream();
-                final String resp = inputStream.toString();
 
-                JSONObject jObject = new JSONObject(resp);
-                String jTitle = jObject.getString("title");
-                String jBody = jObject.getString("location_type");
-                results[0] = jTitle;
-                results[1] = jBody;
-                return results;
+                    conn.connect();
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    // read response.
+                    InputStream inputStream = conn.getInputStream();
+                    final String resp = convertStreamToString(inputStream);
+
+                    JSONObject jObject = new JSONArray(resp).getJSONObject(0);
+                    String jTitle = jObject.getString("title");
+                    String jBody = jObject.getString("location_type");
+                    results[0] = jTitle;
+                    results[1] = resp;
+
+                    Log.i(TAG, resp);
+                    Log.i(TAG, jBody);
+                    Log.i(TAG, jTitle);
+
+
+
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        load.setVisibility(View.INVISIBLE);
+                        TextView result_view = (TextView)findViewById(R.id.showText);
+                        result_view.setText(results[0]);
+                    }
+                });
+
             }
-            return results;
-        }
 
-        @Override
-        protected void onPostExecute(String... s) {
-            super.onPostExecute(s);
-            TextView result_view = (TextView) findViewById(R.id)
-        }
+        });
+
     }
 
     private String convertStreamToString(InputStream in) {
