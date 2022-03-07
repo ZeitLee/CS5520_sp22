@@ -7,8 +7,11 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +27,9 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 public class Server extends AppCompatActivity {
 
     private static final String TAG = "WebServiceActivity";
@@ -31,6 +37,8 @@ public class Server extends AppCompatActivity {
     private TextView content;
     private Button btn;
     private ProgressBar load;
+
+    private ImageView icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,7 @@ public class Server extends AppCompatActivity {
         content = (TextView) findViewById(R.id.showText);
         btn = (Button) findViewById(R.id.getInfo);
         load = (ProgressBar) findViewById(R.id.progressBar);
+        icon = (ImageView) findViewById(R.id.imageView);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +56,11 @@ public class Server extends AppCompatActivity {
                 callWebserviceButtonHandler(v);
             }
         });
+    }
+
+    private void setWeatherImage(String weatherAbb) {
+        String imgSrc = String.format("https://www.metaweather.com/static/img/weather/png/%s.png", weatherAbb);
+        Picasso.get().load(imgSrc).into(icon);
     }
 
     public void callWebserviceButtonHandler(View v) {
@@ -70,7 +84,11 @@ public class Server extends AppCompatActivity {
 
                 try {
                     SystemClock.sleep(2000);
-                    url = new URL("https://www.metaweather.com/api/location/search/?query=london");
+                    String urlSrc = "https://www.metaweather.com/api/location/44418/";
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    String date = dtf.format(now);
+                    url = new URL(urlSrc + date);
 
 
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -85,14 +103,10 @@ public class Server extends AppCompatActivity {
                     final String resp = convertStreamToString(inputStream);
 
                     JSONObject jObject = new JSONArray(resp).getJSONObject(0);
-                    String jTitle = jObject.getString("title");
-                    String jBody = jObject.getString("location_type");
+                    String jTitle = jObject.getString("weather_state_name");
+                    String jBody = jObject.getString("weather_state_abbr");
                     results[0] = jTitle;
-                    results[1] = resp;
-
-                    Log.i(TAG, resp);
-                    Log.i(TAG, jBody);
-                    Log.i(TAG, jTitle);
+                    results[1] = jBody;
 
 
 
@@ -112,8 +126,8 @@ public class Server extends AppCompatActivity {
                     @Override
                     public void run() {
                         load.setVisibility(View.INVISIBLE);
-                        TextView result_view = (TextView)findViewById(R.id.showText);
-                        result_view.setText(results[0]);
+                        content.setText(results[0]);
+                        setWeatherImage(results[1]);
                     }
                 });
 
